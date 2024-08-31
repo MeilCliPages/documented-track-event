@@ -1,0 +1,23 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import EventPage from "../../layouts/EventPage.astro";
+import Link from "../../components/mdx/Link.astro";
+
+type Event = CollectionEntry<"event">;
+
+export async function getStaticPaths() {
+    const events = await getCollection("event");
+    return events.map((event: Event) => ({
+        params: { slug: event.slug },
+        props: event,
+    }));
+}
+type Props = CollectionEntry<"event">;
+
+const event = Astro.props;
+const { Content } = await event.render();
+---
+
+<EventPage name={event.data.name} description={event.data.description} platforms={event.data.platforms}>
+    <Content components={{ a: Link }} />
+</EventPage>
