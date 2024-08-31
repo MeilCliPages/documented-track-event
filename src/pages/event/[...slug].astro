@@ -1,7 +1,15 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
+import { unified } from "unified";
+import remarkParse from "remark-parse";
+import remarkGfm from "remark-gfm";
+import remarkRehype from "remark-rehype";
+import rehypeStarryNight from "rehype-starry-night";
+import rehypeStringify from "rehype-stringify";
+import { all } from "@wooorm/starry-night";
 import EventPage from "../../layouts/EventPage.astro";
 import Link from "../../components/mdx/Link.astro";
+import { validateEventParameter, generateAndroidEvent } from "../../template";
 
 type Event = CollectionEntry<"event">;
 
@@ -15,9 +23,29 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<"event">;
 
 const event = Astro.props;
-const { Content } = await event.render();
+const { Content, remarkPluginFrontmatter } = await event.render();
+
+async function convertMarkdownToHtml(markdown: string): Promise<string> {
+    const file = await unified()
+        .use(remarkParse)
+        .use(remarkGfm)
+        .use(remarkRehype, { allowDangerousHtml: true })
+        .use(rehypeStarryNight, { grammars: all })
+        .use(rehypeStringify, { allowDangerousHtml: true })
+        .process(markdown);
+    return file.toString();
+}
+
+const eventParameter = validateEventParameter(event.data.name, event.data.description, remarkPluginFrontmatter);
+const androidEvent = generateAndroidEvent(eventParameter);
+const androidEventHtml = await convertMarkdownToHtml(
+    `<details>\n<summary>Android</summary>\n\n\`\`\`kt\n${androidEvent}\n\`\`\`\n</details>`,
+);
+console.log(androidEventHtml);
 ---
 
 <EventPage name={event.data.name} description={event.data.description} platforms={event.data.platforms}>
     <Content components={{ a: Link }} />
+    <h2>Generated Code</h2>
+    <div set:html={androidEventHtml} />
 </EventPage>
