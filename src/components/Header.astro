@@ -1,0 +1,28 @@
+---
+import HeaderMode from "./HeaderMode.astro";
+import HeaderLink from "./HeaderLink.astro";
+import { siteTitle, siteDescription } from "../constant";
+---
+
+<header class="border-b bg-white dark:bg-black">
+    <nav class="flex h-16 items-center justify-between px-4">
+        <div class="inline-flex h-full flex-col justify-between py-1">
+            <a
+                href="/"
+                class="font-sans text-2xl text-black no-underline hover:text-black dark:text-white dark:hover:text-white"
+            >
+                {siteTitle}
+            </a>
+            <a
+                href="/"
+                class="font-sans text-xs text-slate-500 no-underline hover:text-slate-500 dark:text-slate-300 dark:hover:text-slate-300"
+            >
+                {siteDescription}
+            </a>
+        </div>
+        <div class="h-full">
+            <HeaderMode />
+            <HeaderLink href="https://github.com/MeilCliPages/documented-track-event">Source</HeaderLink>
+        </div>
+    </nav>
+</header>

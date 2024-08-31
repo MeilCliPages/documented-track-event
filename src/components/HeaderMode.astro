@@ -1,0 +1,46 @@
+---
+
+---
+
+<div class="relative inline-flex h-full items-center justify-center">
+    <div class="mr-2">
+        <span class="iconify fa6-solid--sun text-black dark:text-white"></span>
+    </div>
+    <label class="inline-flex cursor-pointer items-center">
+        <input type="checkbox" name="toggle" id="toggle" class="peer sr-only" />
+        <div
+            class="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white dark:border-gray-600 dark:bg-gray-700"
+        >
+        </div>
+        <div class="sr-only">Toggle theme</div>
+    </label>
+    <div class="ml-2">
+        <span class="iconify fa6-solid--moon text-black dark:text-white"></span>
+    </div>
+</div>
+
+<script is:inline>
+    const body = document.body;
+    const theme = (() => {
+        if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+            return localStorage.getItem("theme");
+        }
+        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+            return "dark";
+        }
+        return "light";
+    })();
+
+    body.setAttribute("data-color-mode", theme);
+    window.localStorage.setItem("theme", theme);
+
+    const handleToggleClick = () => {
+        const isDark = body.getAttribute("data-color-mode") === "dark";
+        const newTheme = isDark ? "light" : "dark";
+        body.setAttribute("data-color-mode", newTheme);
+        localStorage.setItem("theme", newTheme);
+    };
+
+    document.getElementById("toggle").addEventListener("click", handleToggleClick);
+    document.getElementById("toggle").checked = body.getAttribute("data-color-mode") === "dark";
+</script>
