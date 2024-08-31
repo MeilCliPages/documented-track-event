@@ -1,0 +1,14 @@
+---
+interface Props {
+    href: string;
+    title: string | undefined;
+}
+
+const props = Astro.props;
+
+const target = props.href.startsWith("http") ? "_blank" : "_self";
+---
+
+<a {...props} target={target}>
+    <slot />
+</a>
