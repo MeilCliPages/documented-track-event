@@ -41,7 +41,6 @@ const androidEvent = generateAndroidEvent(eventParameter);
 const androidEventHtml = await convertMarkdownToHtml(
     `<details>\n<summary>Android</summary>\n\n\`\`\`kt\n${androidEvent}\n\`\`\`\n</details>`,
 );
-console.log(androidEventHtml);
 ---
 
 <EventPage name={event.data.name} description={event.data.description} platforms={event.data.platforms}>
