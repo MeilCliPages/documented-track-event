@@ -19,6 +19,7 @@
         "@primer/primitives": "^8.2.0",
         "@wooorm/starry-night": "^3.3.0",
         "astro": "^4.11.3",
+        "ejs": "^3.1.10",
         "hast-util-to-string": "^3.0.0",
         "mdast-util-heading-range": "^4.0.0",
         "mdast-util-to-string": "^4.0.0",
@@ -31,7 +32,9 @@
     "devDependencies": {
         "@iconify-json/fa6-solid": "^1.1.21",
         "@iconify/tailwind": "^1.1.1",
+        "@types/ejs": "^3.1.5",
         "@types/mdast": "^4.0.4",
+        "@types/node": "^22.5.1",
         "@typescript-eslint/eslint-plugin": "^7.13.1",
         "@typescript-eslint/parser": "^7.13.1",
         "eslint": "^8.57.0",

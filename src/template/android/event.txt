@@ -1,0 +1,17 @@
+package net.meilcli.dte
+
+/**
+<% for (var description of descriptionLines) { -%>
+ * <%- description %>
+<% } -%>
+ */
+class <%- className %>Event(
+<% for (var field of fields) { -%>
+    /**
+<% for (var description of field.descriptionLines) { -%>
+     * <%- description %>
+<% } -%>
+     */
+    val <%- field.name %>: <%- field.type %>,    
+<% } -%>
+)
