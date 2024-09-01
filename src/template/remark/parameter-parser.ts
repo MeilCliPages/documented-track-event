@@ -3,9 +3,10 @@ import type { RemarkFile } from "./remark-file";
 import { headingRange } from "mdast-util-heading-range";
 import { toString } from "mdast-util-to-string";
 import { visit } from "unist-util-visit";
+import { parameterHeadingName } from "./constant";
 
 export function parseParameter(tree: Root, file: RemarkFile) {
-    headingRange(tree, { test: "Parameters" }, (_, nodes) => {
+    headingRange(tree, { test: parameterHeadingName }, (_, nodes) => {
         const headingRoot = { type: "parent", children: nodes };
         visit(headingRoot, "table", (node) => {
             if (node.children.length < 2) {
