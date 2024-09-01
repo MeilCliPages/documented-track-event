@@ -1,0 +1,25 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Layout from "./Layout.astro";
+import Platform from "../components/Platform.astro";
+
+type Props = CollectionEntry<"type">["data"];
+
+const { name, description, platforms } = Astro.props;
+---
+
+<Layout title={name} description={description}>
+    <article class="my-8">
+        <div>
+            <h1>{name}</h1>
+            <div class="flex flex-wrap items-center justify-start gap-y-1">
+                {platforms.map((x) => <Platform name={x} />)}
+                <p>{description}</p>
+            </div>
+            <hr />
+        </div>
+        <div class="markdown-body">
+            <slot />
+        </div>
+    </article>
+</Layout>

@@ -1,0 +1,32 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import TypePage from "../../layouts/TypePage.astro";
+import Link from "../../components/mdx/Link.astro";
+
+type Type = CollectionEntry<"type">;
+
+export async function getStaticPaths() {
+    const types = await getCollection("type");
+    return types.map((type: Type) => ({
+        params: { slug: type.slug },
+        props: type,
+    }));
+}
+type Props = CollectionEntry<"type">;
+
+const type = Astro.props;
+const { Content } = await type.render();
+---
+
+<TypePage
+    name={type.data.name}
+    description={type.data.description}
+    platforms={type.data.platforms}
+    type={type.data.type}
+>
+    <Content
+        components={{
+            a: Link,
+        }}
+    />
+</TypePage>
