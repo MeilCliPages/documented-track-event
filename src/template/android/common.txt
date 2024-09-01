@@ -1,11 +1,11 @@
-package net.meilcli.dte.event
+package net.meilcli.dte.common
 
 /**
 <% for (var description of descriptionLines) { -%>
  * <%- description %>
 <% } -%>
  */
-class <%- className %>Event(
+class <%- className %>CommonParameter(
 <% for (var field of fields) { -%>
     /**
 <% for (var description of field.descriptionLines) { -%>

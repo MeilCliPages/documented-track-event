@@ -1,0 +1,27 @@
+---
+import type { Common } from "../../template";
+
+export interface Props {
+    common: Common;
+}
+
+const { common } = Astro.props;
+---
+
+<p>{common.name}:</p>
+<table>
+    <thead>
+        <th class="text-left">Name</th>
+        <th class="text-left">Type</th>
+        <th class="text-left">Description</th>
+    </thead>
+    {
+        common.parameters.map((parameter) => (
+            <tr>
+                <td class="text-left">{parameter.name}</td>
+                <td class="text-left">{parameter.type}</td>
+                <td class="text-left">{parameter.description}</td>
+            </tr>
+        ))
+    }
+</table>

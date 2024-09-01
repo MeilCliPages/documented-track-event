@@ -1,0 +1,25 @@
+import * as ejs from "ejs";
+import * as fs from "fs";
+import * as path from "path";
+import { kebabCaseToUpperCamelCase } from "../string";
+import type { Common } from "../common";
+import { type AndroidParameter, mapToAndroidParameter } from "./parameter";
+
+interface AndroidCommon {
+    className: string;
+    descriptionLines: string[];
+    fields: AndroidParameter[];
+}
+
+export function generateAndroidCommon(common: Common): string {
+    const templatePath = path.join(process.cwd(), "src/template/android/common.txt");
+    return ejs.render(fs.readFileSync(templatePath).toString(), mapToAndroidCommon(common));
+}
+
+function mapToAndroidCommon(common: Common): AndroidCommon {
+    return {
+        className: kebabCaseToUpperCamelCase(common.name),
+        descriptionLines: common.description.split(/\r?\n/),
+        fields: common.parameters.map(mapToAndroidParameter),
+    };
+}

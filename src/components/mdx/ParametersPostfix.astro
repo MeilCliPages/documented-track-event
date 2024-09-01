@@ -1,0 +1,21 @@
+---
+import { getCollection } from "astro:content";
+import CommonTable from "./CommonTable.astro";
+import { validateCommon, parameterPostfixType } from "../../template";
+
+const props = Astro.props;
+
+const commonCollection = await getCollection("common");
+const commons = await Promise.all(
+    commonCollection.map(async (x) => {
+        const renderedCommon = await x.render();
+        const common = validateCommon(x.data.name, x.data.description, renderedCommon.remarkPluginFrontmatter);
+        return common;
+    }),
+);
+---
+
+<div {...props}>
+    {props.type != parameterPostfixType && <slot />}
+    {props.type == parameterPostfixType && commons.map((x) => <CommonTable common={x} />)}
+</div>

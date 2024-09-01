@@ -1,0 +1,21 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Layout from "./Layout.astro";
+
+type Props = CollectionEntry<"common">["data"];
+
+const { name, description } = Astro.props;
+---
+
+<Layout title={name} description={description}>
+    <article class="my-8">
+        <div>
+            <h1>{name}</h1>
+            <p>{description}</p>
+            <hr />
+        </div>
+        <div class="markdown-body">
+            <slot />
+        </div>
+    </article>
+</Layout>
