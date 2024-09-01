@@ -5,7 +5,7 @@ package net.meilcli.dte.common
  * <%- description %>
 <% } -%>
  */
-class <%- className %>CommonParameter(
+class <%- className %>(
 <% for (var field of fields) { -%>
     /**
 <% for (var description of field.descriptionLines) { -%>

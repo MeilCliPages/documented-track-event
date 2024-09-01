@@ -3,7 +3,7 @@
  * <%- description %>
 <% } -%>
  */
-interface <%- className %>CommonParameter {
+interface <%- className %> {
 <% for (var field of fields) { -%>
     /**
 <% for (var description of field.descriptionLines) { -%>
