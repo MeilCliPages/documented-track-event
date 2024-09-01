@@ -1,14 +1,8 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
-import { unified } from "unified";
-import remarkParse from "remark-parse";
-import remarkGfm from "remark-gfm";
-import remarkRehype from "remark-rehype";
-import rehypeStarryNight from "rehype-starry-night";
-import rehypeStringify from "rehype-stringify";
-import { all } from "@wooorm/starry-night";
 import CommonPage from "../../layouts/CommonPage.astro";
 import Link from "../../components/mdx/Link.astro";
+import { convertMarkdownToHtml } from "../../markdown-converter";
 import { validateCommon, generateAndroidCommon, generateWebCommon } from "../../template";
 
 type Common = CollectionEntry<"common">;
@@ -24,17 +18,6 @@ type Props = CollectionEntry<"common">;
 
 const common = Astro.props;
 const { Content, remarkPluginFrontmatter } = await common.render();
-
-async function convertMarkdownToHtml(markdown: string): Promise<string> {
-    const file = await unified()
-        .use(remarkParse)
-        .use(remarkGfm)
-        .use(remarkRehype, { allowDangerousHtml: true })
-        .use(rehypeStarryNight, { grammars: all })
-        .use(rehypeStringify, { allowDangerousHtml: true })
-        .process(markdown);
-    return file.toString();
-}
 
 const rawCommon = validateCommon(
     common.data.name,
