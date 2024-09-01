@@ -8,7 +8,7 @@ import { type WebParameter, mapToWebParameter } from "./parameter";
 interface WebEvent {
     className: string;
     descriptionLines: string[];
-    fields: WebParameter[];
+    parameters: WebParameter[];
 }
 
 export function generateWebEvent(event: Event): string {
@@ -20,6 +20,6 @@ function mapToWebEvent(event: Event): WebEvent {
     return {
         className: kebabCaseToUpperCamelCase(event.name),
         descriptionLines: event.description.split(/\r?\n/),
-        fields: event.parameters.map(mapToWebParameter),
+        parameters: event.parameters.map(mapToWebParameter),
     };
 }

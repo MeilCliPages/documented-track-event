@@ -8,7 +8,7 @@ import { type AndroidParameter, mapToAndroidParameter } from "./parameter";
 interface AndroidEvent {
     className: string;
     descriptionLines: string[];
-    fields: AndroidParameter[];
+    parameters: AndroidParameter[];
 }
 
 export function generateAndroidEvent(event: Event): string {
@@ -20,6 +20,6 @@ function mapToAndroidEvent(event: Event): AndroidEvent {
     return {
         className: kebabCaseToUpperCamelCase(event.name),
         descriptionLines: event.description.split(/\r?\n/),
-        fields: event.parameters.map(mapToAndroidParameter),
+        parameters: event.parameters.map(mapToAndroidParameter),
     };
 }

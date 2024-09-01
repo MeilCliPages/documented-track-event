@@ -8,7 +8,7 @@ import { type AndroidParameter, mapToAndroidParameter } from "./parameter";
 interface AndroidCommon {
     className: string;
     descriptionLines: string[];
-    fields: AndroidParameter[];
+    parameters: AndroidParameter[];
 }
 
 export function generateAndroidCommon(common: Common): string {
@@ -20,6 +20,6 @@ function mapToAndroidCommon(common: Common): AndroidCommon {
     return {
         className: kebabCaseToUpperCamelCase(common.name),
         descriptionLines: common.description.split(/\r?\n/),
-        fields: common.parameters.map(mapToAndroidParameter),
+        parameters: common.parameters.map(mapToAndroidParameter),
     };
 }

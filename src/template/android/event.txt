@@ -6,12 +6,12 @@ package net.meilcli.dte.event
 <% } -%>
  */
 class <%- className %>Event(
-<% for (var field of fields) { -%>
+<% for (var parameter of parameters) { -%>
     /**
-<% for (var description of field.descriptionLines) { -%>
+<% for (var description of parameter.descriptionLines) { -%>
      * <%- description %>
 <% } -%>
      */
-    val <%- field.name %>: <%- field.type %>,    
+    val <%- parameter.name %>: <%- parameter.type %>,    
 <% } -%>
 )

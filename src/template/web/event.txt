@@ -4,12 +4,12 @@
 <% } -%>
  */
 interface <%- className %>Event {
-<% for (var field of fields) { -%>
+<% for (var parameter of parameters) { -%>
     /**
-<% for (var description of field.descriptionLines) { -%>
+<% for (var description of parameter.descriptionLines) { -%>
      * <%- description %>
 <% } -%>
      */
-    <%- field.name %>: <%- field.type %>;
+    <%- parameter.name %>: <%- parameter.type %>;
 <% } -%>
 }
