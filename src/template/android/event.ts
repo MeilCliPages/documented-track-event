@@ -1,7 +1,8 @@
 import * as ejs from "ejs";
 import * as fs from "fs";
 import * as path from "path";
-import type { Event, EventParameter } from "../event";
+import type { Event } from "../event";
+import type { Parameter } from "../parameter";
 
 interface AndroidEvent {
     className: string;
@@ -40,19 +41,19 @@ function mapToAndroidEvent(event: Event): AndroidEvent {
     };
 }
 
-function mapToAndroidEventParameter(eventParameter: EventParameter): AndroidEventParameter {
+function mapToAndroidEventParameter(parameter: Parameter): AndroidEventParameter {
     return {
-        name: kebabCaseToLowerCamelCase(eventParameter.name),
-        type: mapToAndroidParameterType(eventParameter.type),
-        descriptionLines: eventParameter.description.split(/\r?\n/),
+        name: kebabCaseToLowerCamelCase(parameter.name),
+        type: mapToAndroidParameterType(parameter.type),
+        descriptionLines: parameter.description.split(/\r?\n/),
     };
 }
 
-function mapToAndroidParameterType(eventParameterType: EventParameter["type"]): string {
-    if (eventParameterType.startsWith("enum:")) {
-        return eventParameterType.slice("enum:".length);
+function mapToAndroidParameterType(parameterType: Parameter["type"]): string {
+    if (parameterType.startsWith("enum:")) {
+        return parameterType.slice("enum:".length);
     } else {
-        switch (eventParameterType) {
+        switch (parameterType) {
             case "string":
                 return "String";
             case "int":
@@ -66,7 +67,7 @@ function mapToAndroidParameterType(eventParameterType: EventParameter["type"]): 
             case "boolean":
                 return "Boolean";
             default:
-                throw new Error(`Unknown type: ${eventParameterType}`);
+                throw new Error(`Unknown type: ${parameterType}`);
         }
     }
 }
