@@ -10,7 +10,7 @@ import { all } from "@wooorm/starry-night";
 import EventPage from "../../layouts/EventPage.astro";
 import Link from "../../components/mdx/Link.astro";
 import ParametersPostfix from "../../components/mdx/ParametersPostfix.astro";
-import { validateEvent, generateAndroidEvent } from "../../template";
+import { validateEvent, generateAndroidEvent, generateWebEvent } from "../../template";
 
 type Event = CollectionEntry<"event">;
 
@@ -38,10 +38,16 @@ async function convertMarkdownToHtml(markdown: string): Promise<string> {
 }
 
 const rawEvent = validateEvent(event.data.name, event.data.description, remarkPluginFrontmatter);
-const androidEvent = generateAndroidEvent(rawEvent);
-const androidEventHtml = await convertMarkdownToHtml(
-    `<details>\n<summary>Android</summary>\n\n\`\`\`kt\n${androidEvent}\n\`\`\`\n</details>`,
-);
+const androidEventHtml = event.data.platforms.includes("android")
+    ? await convertMarkdownToHtml(
+          `<details>\n<summary>Android</summary>\n\n\`\`\`kt\n${generateAndroidEvent(rawEvent)}\n\`\`\`\n</details>`,
+      )
+    : null;
+const webCommonHtml = event.data.platforms.includes("web")
+    ? await convertMarkdownToHtml(
+          `<details>\n<summary>Web</summary>\n\n\`\`\`ts\n${generateWebEvent(rawEvent)}\n\`\`\`\n</details>`,
+      )
+    : null;
 ---
 
 <EventPage name={event.data.name} description={event.data.description} platforms={event.data.platforms}>
@@ -52,5 +58,6 @@ const androidEventHtml = await convertMarkdownToHtml(
         }}
     />
     <h2>Generated Code</h2>
-    <div set:html={androidEventHtml} />
+    {androidEventHtml != null && <div set:html={androidEventHtml} />}
+    {webCommonHtml != null && <div set:html={webCommonHtml} />}
 </EventPage>

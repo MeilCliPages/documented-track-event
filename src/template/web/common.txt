@@ -1,0 +1,15 @@
+/**
+<% for (var description of descriptionLines) { -%>
+ * <%- description %>
+<% } -%>
+ */
+interface <%- className %>CommonParameter {
+<% for (var field of fields) { -%>
+    /**
+<% for (var description of field.descriptionLines) { -%>
+     * <%- description %>
+<% } -%>
+     */
+    <%- field.name %>: <%- field.type %>;
+<% } -%>
+}

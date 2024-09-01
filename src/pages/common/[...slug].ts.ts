@@ -1,6 +1,6 @@
 import type { APIContext } from "astro";
 import { type CollectionEntry, getCollection, getEntry } from "astro:content";
-import { validateCommon, generateAndroidCommon } from "../../template";
+import { validateCommon, generateWebCommon } from "../../template";
 
 type Common = CollectionEntry<"common">;
 
@@ -25,7 +25,7 @@ export async function GET({ params }: APIContext) {
     const { remarkPluginFrontmatter } = await common.render();
 
     return new Response(
-        generateAndroidCommon(
+        generateWebCommon(
             validateCommon(common.data.name, common.data.description, common.data.platforms, remarkPluginFrontmatter),
         ),
     );

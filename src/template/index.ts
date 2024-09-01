@@ -5,6 +5,8 @@ export type { Parameter } from "./parameter";
 export type { Common } from "./common";
 export { validateCommon } from "./common-validate";
 export { generateAndroidCommon } from "./android/common";
+export { generateWebCommon } from "./web/common";
 export type { Event } from "./event";
 export { validateEvent } from "./event-validate";
 export { generateAndroidEvent } from "./android/event";
+export { generateWebEvent } from "./web/event";

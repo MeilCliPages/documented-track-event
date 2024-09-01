@@ -9,7 +9,7 @@ import rehypeStringify from "rehype-stringify";
 import { all } from "@wooorm/starry-night";
 import CommonPage from "../../layouts/CommonPage.astro";
 import Link from "../../components/mdx/Link.astro";
-import { validateCommon, generateAndroidCommon } from "../../template";
+import { validateCommon, generateAndroidCommon, generateWebCommon } from "../../template";
 
 type Common = CollectionEntry<"common">;
 
@@ -42,14 +42,21 @@ const rawCommon = validateCommon(
     common.data.platforms,
     remarkPluginFrontmatter,
 );
-const androidCommon = generateAndroidCommon(rawCommon);
-const androidCommonHtml = await convertMarkdownToHtml(
-    `<details>\n<summary>Android</summary>\n\n\`\`\`kt\n${androidCommon}\n\`\`\`\n</details>`,
-);
+const androidCommonHtml = common.data.platforms.includes("android")
+    ? await convertMarkdownToHtml(
+          `<details>\n<summary>Android</summary>\n\n\`\`\`kt\n${generateAndroidCommon(rawCommon)}\n\`\`\`\n</details>`,
+      )
+    : null;
+const webCommonHtml = common.data.platforms.includes("web")
+    ? await convertMarkdownToHtml(
+          `<details>\n<summary>Web</summary>\n\n\`\`\`ts\n${generateWebCommon(rawCommon)}\n\`\`\`\n</details>`,
+      )
+    : null;
 ---
 
 <CommonPage name={common.data.name} description={common.data.description} platforms={common.data.platforms}>
     <Content components={{ a: Link }} />
     <h2>Generated Code</h2>
-    <div set:html={androidCommonHtml} />
+    {androidCommonHtml != null && <div set:html={androidCommonHtml} />}
+    {webCommonHtml != null && <div set:html={webCommonHtml} />}
 </CommonPage>
