@@ -36,7 +36,12 @@ async function convertMarkdownToHtml(markdown: string): Promise<string> {
     return file.toString();
 }
 
-const rawCommon = validateCommon(common.data.name, common.data.description, remarkPluginFrontmatter);
+const rawCommon = validateCommon(
+    common.data.name,
+    common.data.description,
+    common.data.platforms,
+    remarkPluginFrontmatter,
+);
 const androidCommon = generateAndroidCommon(rawCommon);
 const androidCommonHtml = await convertMarkdownToHtml(
     `<details>\n<summary>Android</summary>\n\n\`\`\`kt\n${androidCommon}\n\`\`\`\n</details>`,

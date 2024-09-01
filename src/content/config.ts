@@ -5,7 +5,7 @@ const common = defineCollection({
     schema: z.object({
         name: z.string(),
         description: z.string(),
-        platforms: z.array(z.string()),
+        platforms: z.array(z.union([z.literal("web"), z.literal("android")])),
     }),
 });
 
@@ -14,7 +14,7 @@ const event = defineCollection({
     schema: z.object({
         name: z.string(),
         description: z.string(),
-        platforms: z.array(z.string()),
+        platforms: z.array(z.union([z.literal("web"), z.literal("android")])),
     }),
 });
 

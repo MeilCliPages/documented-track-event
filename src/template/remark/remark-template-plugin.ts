@@ -9,6 +9,6 @@ export const remarkTemplatePlugin: RemarkPlugin = remarkTemplatePluginInternal a
 function remarkTemplatePluginInternal() {
     return (tree: Root, file: RemarkFile) => {
         parseParameter(tree, file);
-        appendParameterPostfix(tree);
+        appendParameterPostfix(tree, file);
     };
 }

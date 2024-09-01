@@ -1,5 +1,6 @@
 export { remarkTemplatePlugin } from "./remark/remark-template-plugin";
 export { parameterHeadingName, parameterPostfixType } from "./remark/constant";
+export type { Platforms, Platform } from "./platform";
 export type { Parameter } from "./parameter";
 export type { Common } from "./common";
 export { validateCommon } from "./common-validate";

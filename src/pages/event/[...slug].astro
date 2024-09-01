@@ -45,7 +45,12 @@ const androidEventHtml = await convertMarkdownToHtml(
 ---
 
 <EventPage name={event.data.name} description={event.data.description} platforms={event.data.platforms}>
-    <Content components={{ a: Link, div: ParametersPostfix }} />
+    <Content
+        components={{
+            a: Link,
+            div: ParametersPostfix,
+        }}
+    />
     <h2>Generated Code</h2>
     <div set:html={androidEventHtml} />
 </EventPage>

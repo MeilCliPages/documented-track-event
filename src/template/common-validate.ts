@@ -1,9 +1,10 @@
 import type { Common } from "./common";
+import type { Platform } from "./platform";
 import type { Parameter } from "./parameter";
 import { validateParameter } from "./parameter-validate";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function validateCommon(name: string, description: string, frontmatter: any): Common {
+export function validateCommon(name: string, description: string, platforms: Platform[], frontmatter: any): Common {
     if (name.length === 0) {
         throw new Error("Name cannot be empty.");
     }
@@ -25,5 +26,5 @@ export function validateCommon(name: string, description: string, frontmatter: a
         .filter((x) => validateParameter(x.name, x.type, x.description))
         .map((x) => x as Parameter);
 
-    return { name, description, parameters: resultParameters };
+    return { name, description, platforms, parameters: resultParameters };
 }
