@@ -1,0 +1,52 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../layouts/Layout.astro";
+
+const commons = (await getCollection("common")).sort();
+const events = (await getCollection("event")).sort();
+---
+
+<Layout title="Home" description="Welcome to the documented-track-event example site!">
+    <article class="my-8">
+        <div class="markdown-body">
+            <h2>Common Parameters</h2>
+            <table>
+                <thead>
+                    <th class="text-left">Name</th>
+                    <th class="text-left">Description</th>
+                    <th class="text-left">Platforms</th>
+                </thead>
+                {
+                    commons.map((common) => (
+                        <tr>
+                            <td class="text-left">
+                                <a href={`/common/${common.slug}`}>{common.data.name}</a>
+                            </td>
+                            <td class="text-left">{common.data.description}</td>
+                            <td class="text-left">{common.data.platforms.join(", ")}</td>
+                        </tr>
+                    ))
+                }
+            </table>
+            <h2>Events</h2>
+            <table>
+                <thead>
+                    <th class="text-left">Name</th>
+                    <th class="text-left">Description</th>
+                    <th class="text-left">Platforms</th>
+                </thead>
+                {
+                    events.map((event) => (
+                        <tr>
+                            <td class="text-left">
+                                <a href={`/event/${event.slug}`}>{event.data.name}</a>
+                            </td>
+                            <td class="text-left">{event.data.description}</td>
+                            <td class="text-left">{event.data.platforms.join(", ")}</td>
+                        </tr>
+                    ))
+                }
+            </table>
+        </div>
+    </article>
+</Layout>
