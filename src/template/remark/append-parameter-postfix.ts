@@ -3,8 +3,9 @@ import { headingRange } from "mdast-util-heading-range";
 import { parameterHeadingName, parameterPostfixType } from "./constant";
 
 export function appendParameterPostfix(tree: Root) {
-    headingRange(tree, { test: parameterHeadingName }, (_, nodes) => {
+    headingRange(tree, { test: parameterHeadingName }, (heading, nodes) => {
         return [
+            heading,
             ...nodes,
             {
                 type: "html",
