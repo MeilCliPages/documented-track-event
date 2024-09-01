@@ -1,3 +1,4 @@
-export type { EventParameter } from "./event-parameter";
-export { validateEventParameter } from "./event-parameter-validate";
+export { remarkTemplatePlugin } from "./remark/remark-template-plugin";
+export type { EventParameter } from "./event";
+export { validateEvent } from "./event-validate";
 export { generateAndroidEvent } from "./android/event";

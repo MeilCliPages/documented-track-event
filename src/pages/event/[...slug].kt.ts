@@ -1,6 +1,6 @@
 import type { APIContext } from "astro";
 import { type CollectionEntry, getCollection, getEntry } from "astro:content";
-import { validateEventParameter, generateAndroidEvent } from "../../template";
+import { validateEvent, generateAndroidEvent } from "../../template";
 
 type Event = CollectionEntry<"event">;
 
@@ -24,6 +24,7 @@ export async function GET({ params }: APIContext) {
 
     const { remarkPluginFrontmatter } = await event.render();
 
-    const eventParameter = validateEventParameter(event.data.name, event.data.description, remarkPluginFrontmatter);
-    return new Response(generateAndroidEvent(eventParameter));
+    return new Response(
+        generateAndroidEvent(validateEvent(event.data.name, event.data.description, remarkPluginFrontmatter)),
+    );
 }

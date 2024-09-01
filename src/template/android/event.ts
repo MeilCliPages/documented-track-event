@@ -1,23 +1,23 @@
 import * as ejs from "ejs";
 import * as fs from "fs";
 import * as path from "path";
-import type { EventParameter, EventField } from "../event-parameter";
+import type { Event, EventParameter } from "../event";
 
-interface AndroidEventParameter {
+interface AndroidEvent {
     className: string;
     descriptionLines: string[];
-    fields: AndroidEventField[];
+    fields: AndroidEventParameter[];
 }
 
-interface AndroidEventField {
+interface AndroidEventParameter {
     name: string;
     type: string;
     descriptionLines: string[];
 }
 
-export function generateAndroidEvent(eventParameter: EventParameter): string {
+export function generateAndroidEvent(event: Event): string {
     const templatePath = path.join(process.cwd(), "src/template/android/event.txt");
-    return ejs.render(fs.readFileSync(templatePath).toString(), mapToAndroidEventParameter(eventParameter));
+    return ejs.render(fs.readFileSync(templatePath).toString(), mapToAndroidEvent(event));
 }
 
 function kebabCaseToUpperCamelCase(value: string): string {
@@ -32,27 +32,27 @@ function kebabCaseToLowerCamelCase(value: string): string {
     return upperCamelCase.charAt(0).toLowerCase() + upperCamelCase.slice(1);
 }
 
+function mapToAndroidEvent(event: Event): AndroidEvent {
+    return {
+        className: kebabCaseToUpperCamelCase(event.name),
+        descriptionLines: event.description.split(/\r?\n/),
+        fields: event.parameters.map(mapToAndroidEventParameter),
+    };
+}
+
 function mapToAndroidEventParameter(eventParameter: EventParameter): AndroidEventParameter {
     return {
-        className: kebabCaseToUpperCamelCase(eventParameter.name),
+        name: kebabCaseToLowerCamelCase(eventParameter.name),
+        type: mapToAndroidParameterType(eventParameter.type),
         descriptionLines: eventParameter.description.split(/\r?\n/),
-        fields: eventParameter.fields.map(mapToAndroidEventField),
     };
 }
 
-function mapToAndroidEventField(eventField: EventField): AndroidEventField {
-    return {
-        name: kebabCaseToLowerCamelCase(eventField.field),
-        type: mapToAndroidFieldType(eventField.type),
-        descriptionLines: eventField.description.split(/\r?\n/),
-    };
-}
-
-function mapToAndroidFieldType(eventFieldType: EventField["type"]): string {
-    if (eventFieldType.startsWith("enum:")) {
-        return eventFieldType.slice("enum:".length);
+function mapToAndroidParameterType(eventParameterType: EventParameter["type"]): string {
+    if (eventParameterType.startsWith("enum:")) {
+        return eventParameterType.slice("enum:".length);
     } else {
-        switch (eventFieldType) {
+        switch (eventParameterType) {
             case "string":
                 return "String";
             case "int":
@@ -66,7 +66,7 @@ function mapToAndroidFieldType(eventFieldType: EventField["type"]): string {
             case "boolean":
                 return "Boolean";
             default:
-                throw new Error(`Unknown type: ${eventFieldType}`);
+                throw new Error(`Unknown type: ${eventParameterType}`);
         }
     }
 }

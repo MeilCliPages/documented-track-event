@@ -3,7 +3,7 @@ import mdx from "@astrojs/mdx";
 import tailwind from "@astrojs/tailwind";
 import rehypeStarryNight from "rehype-starry-night";
 import { all } from "@wooorm/starry-night";
-import { remarkTemplatePlugin } from "./template-plugin.mjs";
+import { remarkTemplatePlugin } from "./src/template";
 
 function rehypeStarryNightWrapper() {
     return rehypeStarryNight({ grammars: all });

@@ -9,7 +9,7 @@ import rehypeStringify from "rehype-stringify";
 import { all } from "@wooorm/starry-night";
 import EventPage from "../../layouts/EventPage.astro";
 import Link from "../../components/mdx/Link.astro";
-import { validateEventParameter, generateAndroidEvent } from "../../template";
+import { validateEvent, generateAndroidEvent } from "../../template";
 
 type Event = CollectionEntry<"event">;
 
@@ -36,8 +36,8 @@ async function convertMarkdownToHtml(markdown: string): Promise<string> {
     return file.toString();
 }
 
-const eventParameter = validateEventParameter(event.data.name, event.data.description, remarkPluginFrontmatter);
-const androidEvent = generateAndroidEvent(eventParameter);
+const rawEvent = validateEvent(event.data.name, event.data.description, remarkPluginFrontmatter);
+const androidEvent = generateAndroidEvent(rawEvent);
 const androidEventHtml = await convertMarkdownToHtml(
     `<details>\n<summary>Android</summary>\n\n\`\`\`kt\n${androidEvent}\n\`\`\`\n</details>`,
 );
