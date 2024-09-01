@@ -1,7 +1,7 @@
 import * as ejs from "ejs";
 import * as fs from "fs";
 import * as path from "path";
-import { kebabCaseToUpperCamelCase } from "../string";
+import { lowerSnaleCaseToUpperCamelCase } from "../string";
 import type { Common } from "../common";
 import { type AndroidParameter, mapToAndroidParameter } from "./parameter";
 
@@ -18,7 +18,7 @@ export function generateAndroidCommon(common: Common): string {
 
 function mapToAndroidCommon(common: Common): AndroidCommon {
     return {
-        className: kebabCaseToUpperCamelCase(common.name),
+        className: lowerSnaleCaseToUpperCamelCase(common.name),
         descriptionLines: common.description.split(/\r?\n/),
         parameters: common.parameters.map(mapToAndroidParameter),
     };

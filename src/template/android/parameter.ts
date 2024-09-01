@@ -1,4 +1,4 @@
-import { kebabCaseToLowerCamelCase } from "../string";
+import { lowerSnaleCaseToLowerCamelCase } from "../string";
 import type { Parameter } from "../parameter";
 
 export interface AndroidParameter {
@@ -9,7 +9,7 @@ export interface AndroidParameter {
 
 export function mapToAndroidParameter(parameter: Parameter): AndroidParameter {
     return {
-        name: kebabCaseToLowerCamelCase(parameter.name),
+        name: lowerSnaleCaseToLowerCamelCase(parameter.name),
         type: mapToAndroidParameterType(parameter.type),
         descriptionLines: parameter.description.split(/\r?\n/),
     };

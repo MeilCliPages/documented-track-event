@@ -1,7 +1,7 @@
 import * as ejs from "ejs";
 import * as fs from "fs";
 import * as path from "path";
-import { kebabCaseToUpperCamelCase } from "../string";
+import { lowerSnaleCaseToUpperCamelCase } from "../string";
 import type { Common } from "../common";
 import { type WebParameter, mapToWebParameter } from "./parameter";
 
@@ -18,7 +18,7 @@ export function generateWebCommon(common: Common): string {
 
 function mapToWebCommon(common: Common): WebCommon {
     return {
-        className: kebabCaseToUpperCamelCase(common.name),
+        className: lowerSnaleCaseToUpperCamelCase(common.name),
         descriptionLines: common.description.split(/\r?\n/),
         parameters: common.parameters.map(mapToWebParameter),
     };

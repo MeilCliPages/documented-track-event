@@ -1,7 +1,7 @@
 import * as ejs from "ejs";
 import * as fs from "fs";
 import * as path from "path";
-import { kebabCaseToUpperCamelCase } from "../string";
+import { lowerSnaleCaseToUpperCamelCase } from "../string";
 import type { Event } from "../event";
 import { type WebParameter, mapToWebParameter } from "./parameter";
 
@@ -18,7 +18,7 @@ export function generateWebEvent(event: Event): string {
 
 function mapToWebEvent(event: Event): WebEvent {
     return {
-        className: kebabCaseToUpperCamelCase(event.name),
+        className: lowerSnaleCaseToUpperCamelCase(event.name),
         descriptionLines: event.description.split(/\r?\n/),
         parameters: event.parameters.map(mapToWebParameter),
     };

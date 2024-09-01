@@ -1,4 +1,4 @@
-import { kebabCaseToLowerCamelCase } from "../string";
+import { lowerSnaleCaseToLowerCamelCase } from "../string";
 import type { Parameter } from "../parameter";
 
 export interface WebParameter {
@@ -9,7 +9,7 @@ export interface WebParameter {
 
 export function mapToWebParameter(parameter: Parameter): WebParameter {
     return {
-        name: kebabCaseToLowerCamelCase(parameter.name),
+        name: lowerSnaleCaseToLowerCamelCase(parameter.name),
         type: mapToWebParameterType(parameter.type),
         descriptionLines: parameter.description.split(/\r?\n/),
     };

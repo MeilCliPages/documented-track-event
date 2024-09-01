@@ -1,7 +1,7 @@
 import * as ejs from "ejs";
 import * as fs from "fs";
 import * as path from "path";
-import { kebabCaseToUpperCamelCase } from "../string";
+import { lowerSnaleCaseToUpperCamelCase } from "../string";
 import type { Event } from "../event";
 import { type AndroidParameter, mapToAndroidParameter } from "./parameter";
 
@@ -18,7 +18,7 @@ export function generateAndroidEvent(event: Event): string {
 
 function mapToAndroidEvent(event: Event): AndroidEvent {
     return {
-        className: kebabCaseToUpperCamelCase(event.name),
+        className: lowerSnaleCaseToUpperCamelCase(event.name),
         descriptionLines: event.description.split(/\r?\n/),
         parameters: event.parameters.map(mapToAndroidParameter),
     };

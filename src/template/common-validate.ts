@@ -12,8 +12,8 @@ export function validateCommon(name: string, description: string, platforms: Pla
         throw new Error("Description cannot be empty.");
     }
 
-    if (name.match(/^[a-z][a-z0-9]*(-[a-z][a-z0-9]*)*$/) === null) {
-        throw new Error("Name must be a valid identifier. (regex: [a-z][a-z0-9]*(-[a-z][a-z0-9]*)*)");
+    if (name.match(/^[a-z][a-z0-9]*(_[a-z][a-z0-9]*)*$/) === null) {
+        throw new Error("Name must be a valid identifier. (regex: [a-z][a-z0-9]*(_[a-z][a-z0-9]*)*)");
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
