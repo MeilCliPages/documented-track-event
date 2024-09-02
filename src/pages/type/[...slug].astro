@@ -2,6 +2,8 @@
 import { type CollectionEntry, getCollection } from "astro:content";
 import TypePage from "../../layouts/TypePage.astro";
 import Link from "../../components/mdx/Link.astro";
+import { convertMarkdownToHtml } from "../../markdown-converter";
+import { validateEnum, generateAndroidEnum, generateWebEnum } from "../../template";
 
 type Type = CollectionEntry<"type">;
 
@@ -15,7 +17,25 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<"type">;
 
 const type = Astro.props;
-const { Content } = await type.render();
+const { Content, remarkPluginFrontmatter } = await type.render();
+
+const rawEnum = validateEnum(
+    type.data.type,
+    type.data.name,
+    type.data.description,
+    type.data.platforms,
+    remarkPluginFrontmatter,
+);
+const androidEnumHtml = type.data.platforms.includes("android")
+    ? await convertMarkdownToHtml(
+          `<details>\n<summary>Android</summary>\n\n\`\`\`kt\n${generateAndroidEnum(rawEnum)}\n\`\`\`\n</details>`,
+      )
+    : null;
+const webEnumHtml = type.data.platforms.includes("web")
+    ? await convertMarkdownToHtml(
+          `<details>\n<summary>Web</summary>\n\n\`\`\`ts\n${generateWebEnum(rawEnum)}\n\`\`\`\n</details>`,
+      )
+    : null;
 ---
 
 <TypePage
@@ -29,4 +49,7 @@ const { Content } = await type.render();
             a: Link,
         }}
     />
+    <h2>Generated Code</h2>
+    {androidEnumHtml != null && <div set:html={androidEnumHtml} />}
+    {webEnumHtml != null && <div set:html={webEnumHtml} />}
 </TypePage>

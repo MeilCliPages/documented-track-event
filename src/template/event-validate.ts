@@ -1,5 +1,4 @@
 import type { Event } from "./event";
-import type { Parameter } from "./parameter";
 import { validateParameter } from "./parameter-validate";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -22,8 +21,7 @@ export function validateEvent(name: string, description: string, frontmatter: an
     }
     const resultParameters = parameters
         .filter((x) => typeof x.name === "string" && typeof x.type === "string" && typeof x.description === "string")
-        .filter((x) => validateParameter(x.name, x.type, x.description))
-        .map((x) => x as Parameter);
+        .map((x) => validateParameter(x.name, x.type, x.description));
 
     return { name, description, parameters: resultParameters };
 }

@@ -1,6 +1,5 @@
 import type { Common } from "./common";
 import type { Platform } from "./platform";
-import type { Parameter } from "./parameter";
 import { validateParameter } from "./parameter-validate";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -23,8 +22,7 @@ export function validateCommon(name: string, description: string, platforms: Pla
     }
     const resultParameters = parameters
         .filter((x) => typeof x.name === "string" && typeof x.type === "string" && typeof x.description === "string")
-        .filter((x) => validateParameter(x.name, x.type, x.description))
-        .map((x) => x as Parameter);
+        .map((x) => validateParameter(x.name, x.type, x.description));
 
     return { name, description, platforms, parameters: resultParameters };
 }

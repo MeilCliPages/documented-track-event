@@ -1,0 +1,17 @@
+package net.meilcli.dte.entity
+
+/**
+<% for (var description of descriptionLines) { -%>
+ * <%- description %>
+<% } -%>
+ */
+enum class <%- className %>(val value: <%- type %>) {
+<% for (var value of values) { -%>
+    /**
+<% for (var description of value.descriptionLines) { -%>
+     * <%- description %>
+<% } -%>
+     */
+    <%- value.name %>(<%- value.value %>),    
+<% } -%>
+}
