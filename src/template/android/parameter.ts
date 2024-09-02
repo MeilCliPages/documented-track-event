@@ -1,4 +1,4 @@
-import { lowerSnaleCaseToLowerCamelCase } from "../string";
+import { lowerSnaleCaseToLowerCamelCase, lowerSnaleCaseToUpperCamelCase } from "../string";
 import type { Parameter } from "../parameter";
 
 export interface AndroidParameter {
@@ -17,7 +17,7 @@ export function mapToAndroidParameter(parameter: Parameter): AndroidParameter {
 
 function mapToAndroidParameterType(parameterType: Parameter["type"]): string {
     if (parameterType.startsWith("type:")) {
-        return parameterType.slice("type:".length);
+        return lowerSnaleCaseToUpperCamelCase(parameterType.slice("type:".length));
     } else {
         switch (parameterType) {
             case "string":
