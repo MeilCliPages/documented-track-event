@@ -1,6 +1,6 @@
 export interface Parameter {
     name: string;
-    type: ParameterBasicType | ParameterEnumType;
+    type: ParameterBasicType | ParameterUserType;
     description: string;
 }
 
@@ -8,4 +8,4 @@ export const ParameterBasicTypes = ["string", "int", "long", "float", "double", 
 export type ParameterBasicType = (typeof ParameterBasicTypes)[number];
 
 type WithPrefix<TKey, TPrefix extends string> = TKey extends string ? `${TPrefix}${TKey}` : never;
-export type ParameterEnumType = WithPrefix<string, "enum:">;
+export type ParameterUserType = WithPrefix<string, "type:">;

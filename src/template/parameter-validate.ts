@@ -1,4 +1,4 @@
-import { type Parameter, ParameterBasicTypes, type ParameterBasicType, type ParameterEnumType } from "./parameter";
+import { type Parameter, ParameterBasicTypes, type ParameterBasicType, type ParameterUserType } from "./parameter";
 
 export function validateParameter(name: string, type: string, description: string): Parameter {
     if (name.length === 0) {
@@ -15,10 +15,10 @@ export function validateParameter(name: string, type: string, description: strin
         throw new Error("Name must be a valid identifier. (regex: [a-z][a-z0-9]*(_[a-z][a-z0-9]*)*)");
     }
 
-    let resultType: ParameterBasicType | ParameterEnumType;
-    if (type.startsWith("enum:")) {
+    let resultType: ParameterBasicType | ParameterUserType;
+    if (type.startsWith("type:")) {
         // ToDo: check enum names
-        resultType = type as ParameterEnumType;
+        resultType = type as ParameterUserType;
     } else {
         if (ParameterBasicTypes.find((x) => x == type) != null) {
             resultType = type as ParameterBasicType;

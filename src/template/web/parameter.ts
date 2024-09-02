@@ -16,8 +16,8 @@ export function mapToWebParameter(parameter: Parameter): WebParameter {
 }
 
 function mapToWebParameterType(parameterType: Parameter["type"]): string {
-    if (parameterType.startsWith("enum:")) {
-        return parameterType.slice("enum:".length);
+    if (parameterType.startsWith("type:")) {
+        return parameterType.slice("type:".length);
     } else {
         switch (parameterType) {
             case "string":
