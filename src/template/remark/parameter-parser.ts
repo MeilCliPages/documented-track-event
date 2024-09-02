@@ -4,8 +4,11 @@ import { headingRange } from "mdast-util-heading-range";
 import { toString } from "mdast-util-to-string";
 import { visit } from "unist-util-visit";
 import { parameterHeadingName } from "./constant";
+import type { Parameter } from "../parameter";
 
-export function parseParameter(tree: Root, file: RemarkFile) {
+export function parseParameter(tree: Root, file: RemarkFile): Parameter[] {
+    let result: Parameter[] = [];
+
     headingRange(tree, { test: parameterHeadingName }, (_, nodes) => {
         const headingRoot = { type: "parent", children: nodes };
         visit(headingRoot, "table", (node) => {
@@ -32,10 +35,13 @@ export function parseParameter(tree: Root, file: RemarkFile) {
                 const name = toString(cells[nameIndex]);
                 const type = toString(cells[typeIndex]);
                 const description = toString(cells[descriptionIndex]);
-                return { name, type, description };
+                return { name, type, description } as Parameter;
             });
 
             file.data.astro.frontmatter.parameters = parameters;
+            result = parameters;
         });
     });
+
+    return result;
 }

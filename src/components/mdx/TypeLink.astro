@@ -1,0 +1,13 @@
+---
+import { getCollection } from "astro:content";
+
+export interface Props {
+    href: string;
+}
+const { href } = Astro.props;
+
+const types = await getCollection("type");
+const targetType = types.find((x) => x.data.name == href.slice("type:".length));
+---
+
+<a href={`/type/${targetType?.slug}`}>type:{targetType?.data.name}</a>

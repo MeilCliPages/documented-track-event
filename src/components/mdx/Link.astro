@@ -1,4 +1,7 @@
 ---
+import TypeLink from "./TypeLink.astro";
+import { parameterTypeLinkTitle } from "../../template";
+
 interface Props {
     href: string;
     title: string | undefined;
@@ -7,8 +10,18 @@ interface Props {
 const props = Astro.props;
 
 const target = props.href.startsWith("http") ? "_blank" : "_self";
+
+let CustomComponent = null;
+if (props.title == parameterTypeLinkTitle) {
+    CustomComponent = TypeLink;
+}
 ---
 
-<a {...props} target={target}>
-    <slot />
-</a>
+{CustomComponent != null && <CustomComponent {...props} />}
+{
+    CustomComponent == null && (
+        <a {...props} target={target}>
+            <slot />
+        </a>
+    )
+}
