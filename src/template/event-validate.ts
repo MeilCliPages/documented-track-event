@@ -18,7 +18,7 @@ export function validateEvent(name: string, description: string, frontmatter: an
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const parameters = frontmatter.parameters == undefined ? [] : (frontmatter.parameters as any[]);
     if (Array.isArray(parameters) == false) {
-        throw new Error("Fields must be an array.");
+        throw new Error("Parameters must be an array.");
     }
     const resultParameters = parameters
         .filter((x) => typeof x.name === "string" && typeof x.type === "string" && typeof x.description === "string")
