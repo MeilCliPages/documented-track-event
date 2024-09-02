@@ -6,9 +6,11 @@ type Type = CollectionEntry<"type">;
 
 export async function getStaticPaths() {
     const types = await getCollection("type");
-    return types.map((type: Type) => ({
-        params: { slug: type.slug },
-    }));
+    return types
+        .filter((x) => x.data.platforms.includes("android"))
+        .map((type: Type) => ({
+            params: { slug: type.slug },
+        }));
 }
 
 export async function GET({ params }: APIContext) {

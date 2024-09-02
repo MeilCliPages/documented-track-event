@@ -6,9 +6,11 @@ type Event = CollectionEntry<"event">;
 
 export async function getStaticPaths() {
     const events = await getCollection("event");
-    return events.map((event: Event) => ({
-        params: { slug: event.slug },
-    }));
+    return events
+        .filter((x) => x.data.platforms.includes("web"))
+        .map((event: Event) => ({
+            params: { slug: event.slug },
+        }));
 }
 
 export async function GET({ params }: APIContext) {

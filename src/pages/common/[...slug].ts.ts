@@ -6,9 +6,11 @@ type Common = CollectionEntry<"common">;
 
 export async function getStaticPaths() {
     const commons = await getCollection("common");
-    return commons.map((common: Common) => ({
-        params: { slug: common.slug },
-    }));
+    return commons
+        .filter((x) => x.data.platforms.includes("web"))
+        .map((common: Common) => ({
+            params: { slug: common.slug },
+        }));
 }
 
 export async function GET({ params }: APIContext) {
