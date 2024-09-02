@@ -2,13 +2,14 @@
 import type { Common } from "../../template";
 
 export interface Props {
+    slug: string;
     common: Common;
 }
 
-const { common } = Astro.props;
+const { slug, common } = Astro.props;
 ---
 
-<p>{common.name}:</p>
+<p><a href={`/common/${slug}`}>{common.name}</a>:</p>
 <table>
     <thead>
         <th class="text-left">Name</th>
