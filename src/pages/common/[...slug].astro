@@ -1,5 +1,6 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
+import { createTypeContext } from "../../content/create-type-context";
 import CommonPage from "../../layouts/CommonPage.astro";
 import Link from "../../components/mdx/Link.astro";
 import { convertMarkdownToHtml } from "../../markdown-converter";
@@ -19,7 +20,9 @@ type Props = CollectionEntry<"common">;
 const common = Astro.props;
 const { Content, remarkPluginFrontmatter } = await common.render();
 
+const typeContext = await createTypeContext();
 const rawCommon = validateCommon(
+    typeContext,
     common.data.name,
     common.data.description,
     common.data.platforms,

@@ -1,5 +1,6 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
+import { createTypeContext } from "../../content/create-type-context";
 import EventPage from "../../layouts/EventPage.astro";
 import Link from "../../components/mdx/Link.astro";
 import ParametersPostfix from "../../components/mdx/ParametersPostfix.astro";
@@ -20,7 +21,8 @@ type Props = CollectionEntry<"event">;
 const event = Astro.props;
 const { Content, remarkPluginFrontmatter } = await event.render();
 
-const rawEvent = validateEvent(event.data.name, event.data.description, remarkPluginFrontmatter);
+const typeContext = await createTypeContext();
+const rawEvent = validateEvent(typeContext, event.data.name, event.data.description, remarkPluginFrontmatter);
 const androidEventHtml = event.data.platforms.includes("android")
     ? await convertMarkdownToHtml(
           `<details>\n<summary>Android</summary>\n\n\`\`\`kt\n${generateAndroidEvent(rawEvent)}\n\`\`\`\n</details>`,

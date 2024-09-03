@@ -4,6 +4,7 @@ export type { Platforms, Platform } from "./platform";
 export type { Value } from "./value";
 export type { Enum } from "./type";
 export { validateEnum } from "./type-validate";
+export { TypeContext } from "./type-context";
 export { generateAndroidEnum } from "./android/type";
 export { generateWebEnum } from "./web/type";
 export type { Parameter } from "./parameter";

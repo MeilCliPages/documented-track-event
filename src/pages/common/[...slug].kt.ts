@@ -1,5 +1,6 @@
 import type { APIContext } from "astro";
 import { type CollectionEntry, getCollection, getEntry } from "astro:content";
+import { createTypeContext } from "../../content/create-type-context";
 import { validateCommon, generateAndroidCommon } from "../../template";
 
 type Common = CollectionEntry<"common">;
@@ -25,10 +26,17 @@ export async function GET({ params }: APIContext) {
     }
 
     const { remarkPluginFrontmatter } = await common.render();
+    const typeContext = await createTypeContext();
 
     return new Response(
         generateAndroidCommon(
-            validateCommon(common.data.name, common.data.description, common.data.platforms, remarkPluginFrontmatter),
+            validateCommon(
+                typeContext,
+                common.data.name,
+                common.data.description,
+                common.data.platforms,
+                remarkPluginFrontmatter,
+            ),
         ),
     );
 }

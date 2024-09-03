@@ -1,5 +1,6 @@
 import type { APIContext } from "astro";
 import { type CollectionEntry, getCollection, getEntry } from "astro:content";
+import { createTypeContext } from "../../content/create-type-context";
 import { validateEvent, generateWebEvent } from "../../template";
 
 type Event = CollectionEntry<"event">;
@@ -25,8 +26,9 @@ export async function GET({ params }: APIContext) {
     }
 
     const { remarkPluginFrontmatter } = await event.render();
+    const typeContext = await createTypeContext();
 
     return new Response(
-        generateWebEvent(validateEvent(event.data.name, event.data.description, remarkPluginFrontmatter)),
+        generateWebEvent(validateEvent(typeContext, event.data.name, event.data.description, remarkPluginFrontmatter)),
     );
 }

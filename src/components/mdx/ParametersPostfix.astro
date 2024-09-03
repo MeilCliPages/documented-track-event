@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import { createTypeContext } from "../../content/create-type-context";
 import CommonTable from "./CommonTable.astro";
 import { validateCommon, type Common, parameterPostfixType } from "../../template";
 
@@ -7,12 +8,14 @@ const props = Astro.props;
 
 const platforms = props.platforms != undefined ? (props.platforms as string).split(",") : [];
 
+const typeContext = await createTypeContext();
 const commonCollection = await getCollection("common");
 const commons = await Promise.all(
     commonCollection.map(async (x) => {
         const slug = x.slug;
         const renderedCommon = await x.render();
         const common = validateCommon(
+            typeContext,
             x.data.name,
             x.data.description,
             x.data.platforms,
