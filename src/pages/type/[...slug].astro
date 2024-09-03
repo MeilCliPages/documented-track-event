@@ -21,6 +21,7 @@ const { Content, remarkPluginFrontmatter } = await type.render();
 
 const rawEnum = validateEnum(
     type.data.type,
+    type.slug,
     type.data.name,
     type.data.description,
     type.data.platforms,

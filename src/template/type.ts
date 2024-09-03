@@ -5,6 +5,7 @@ export const EnumTypes = ["string", "int", "long", "float", "double", "boolean"]
 export type EnumType = (typeof EnumTypes)[number];
 
 interface EnumInternal {
+    slug: string;
     name: string;
     description: string;
     platforms: Platform[];

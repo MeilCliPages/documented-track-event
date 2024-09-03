@@ -30,6 +30,7 @@ export async function GET({ params }: APIContext) {
         generateAndroidEnum(
             validateEnum(
                 type.data.type,
+                type.slug,
                 type.data.name,
                 type.data.description,
                 type.data.platforms,

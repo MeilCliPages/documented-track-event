@@ -7,11 +7,15 @@ export class TypeContext {
     enums: Enum[];
 
     constructor(
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        types: { data: { type: string; name: string; description: string; platforms: Platform[] }; frontmatter: any }[],
+        types: {
+            slug: string;
+            data: { type: string; name: string; description: string; platforms: Platform[] };
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            frontmatter: any;
+        }[],
     ) {
         this.enums = types.map((x) =>
-            validateEnum(x.data.type, x.data.name, x.data.description, x.data.platforms, x.frontmatter),
+            validateEnum(x.data.type, x.slug, x.data.name, x.data.description, x.data.platforms, x.frontmatter),
         );
     }
 

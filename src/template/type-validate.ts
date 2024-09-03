@@ -13,6 +13,7 @@ const enumTypeScheme = z.object({
         z.literal("double_enum"),
         z.literal("boolean_enum"),
     ]),
+    slug: z.string().min(1),
     name: z.string().min(1).regex(lowerSnakeCase),
     description: z.string().min(1),
     values: z.undefined().or(
@@ -28,13 +29,14 @@ const enumTypeScheme = z.object({
 
 export function validateEnum(
     type: string,
+    slug: string,
     name: string,
     description: string,
     platforms: Platform[],
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     frontmatter: any,
 ): Enum {
-    const { values } = enumTypeScheme.parse({ type, name, description, values: frontmatter.values });
+    const { values } = enumTypeScheme.parse({ type, slug, name, description, values: frontmatter.values });
 
     let enumType: Enum["type"];
     switch (type) {
@@ -64,16 +66,16 @@ export function validateEnum(
 
     switch (enumType) {
         case "string":
-            return { type: enumType, name, description, platforms, values: resultValues } as StringEnum;
+            return { type: enumType, slug, name, description, platforms, values: resultValues } as StringEnum;
         case "int":
-            return { type: enumType, name, description, platforms, values: resultValues } as IntEnum;
+            return { type: enumType, slug, name, description, platforms, values: resultValues } as IntEnum;
         case "long":
-            return { type: enumType, name, description, platforms, values: resultValues } as LongEnum;
+            return { type: enumType, slug, name, description, platforms, values: resultValues } as LongEnum;
         case "float":
-            return { type: enumType, name, description, platforms, values: resultValues } as FloatEnum;
+            return { type: enumType, slug, name, description, platforms, values: resultValues } as FloatEnum;
         case "double":
-            return { type: enumType, name, description, platforms, values: resultValues } as DoubleEnum;
+            return { type: enumType, slug, name, description, platforms, values: resultValues } as DoubleEnum;
         case "boolean":
-            return { type: enumType, name, description, platforms, values: resultValues } as BooleanEnum;
+            return { type: enumType, slug, name, description, platforms, values: resultValues } as BooleanEnum;
     }
 }
