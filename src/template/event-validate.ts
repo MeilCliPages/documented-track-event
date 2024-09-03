@@ -1,27 +1,26 @@
+import { z } from "zod";
+import { lowerSnakeCase } from "./string";
 import type { Event } from "./event";
 import { validateParameter } from "./parameter-validate";
 
+const event = z.object({
+    name: z.string().min(1).regex(lowerSnakeCase),
+    description: z.string().min(1),
+    parameters: z.undefined().or(
+        z.array(
+            z.object({
+                name: z.string().min(1),
+                type: z.string().min(1),
+                description: z.string(),
+            }),
+        ),
+    ),
+});
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function validateEvent(name: string, description: string, frontmatter: any): Event {
-    if (name.length === 0) {
-        throw new Error("Name cannot be empty.");
-    }
-    if (description.length === 0) {
-        throw new Error("Description cannot be empty.");
-    }
-
-    if (name.match(/^[a-z][a-z0-9]*(_[a-z][a-z0-9]*)*$/) === null) {
-        throw new Error("Name must be a valid identifier. (regex: [a-z][a-z0-9]*(_[a-z][a-z0-9]*)*)");
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const parameters = frontmatter.parameters == undefined ? [] : (frontmatter.parameters as any[]);
-    if (Array.isArray(parameters) == false) {
-        throw new Error("Parameters must be an array.");
-    }
-    const resultParameters = parameters
-        .filter((x) => typeof x.name === "string" && typeof x.type === "string" && typeof x.description === "string")
-        .map((x) => validateParameter(x.name, x.type, x.description));
+    const { parameters } = event.parse({ name, description, parameters: frontmatter.parameters });
+    const resultParameters = (parameters ?? []).map((x) => validateParameter(x.name, x.type, x.description));
 
     return { name, description, parameters: resultParameters };
 }

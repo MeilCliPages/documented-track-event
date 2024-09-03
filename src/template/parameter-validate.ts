@@ -1,19 +1,15 @@
+import { z } from "zod";
+import { lowerSnakeCase } from "./string";
 import { type Parameter, ParameterBasicTypes, type ParameterBasicType, type ParameterUserType } from "./parameter";
 
-export function validateParameter(name: string, type: string, description: string): Parameter {
-    if (name.length === 0) {
-        throw new Error("Name cannot be empty.");
-    }
-    if (type.length === 0) {
-        throw new Error("Type cannot be empty.");
-    }
-    if (description.length === 0) {
-        throw new Error("Description cannot be empty.");
-    }
+const parameter = z.object({
+    name: z.string().min(1).regex(lowerSnakeCase),
+    type: z.string().min(1),
+    description: z.string().min(1),
+});
 
-    if (name.match(/^[a-z][a-z0-9]*(_[a-z][a-z0-9]*)*$/) === null) {
-        throw new Error("Name must be a valid identifier. (regex: [a-z][a-z0-9]*(_[a-z][a-z0-9]*)*)");
-    }
+export function validateParameter(name: string, type: string, description: string): Parameter {
+    parameter.parse({ name, type, description });
 
     let resultType: ParameterBasicType | ParameterUserType;
     if (type.startsWith("type:")) {

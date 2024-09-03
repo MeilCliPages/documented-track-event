@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { lowerSnakeCase } from "./string";
+import type { Platform } from "./platform";
 import type { BooleanEnum, DoubleEnum, Enum, FloatEnum, IntEnum, LongEnum, StringEnum } from "./type";
 import { validateValue } from "./value-validate";
 
@@ -14,18 +15,26 @@ const enumTypeScheme = z.object({
     ]),
     name: z.string().min(1).regex(lowerSnakeCase),
     description: z.string().min(1),
-    platforms: z.array(z.union([z.literal("android"), z.literal("web")])),
+    values: z.undefined().or(
+        z.array(
+            z.object({
+                name: z.string().min(1),
+                value: z.string().min(1),
+                description: z.string(),
+            }),
+        ),
+    ),
 });
 
 export function validateEnum(
     type: string,
     name: string,
     description: string,
-    platforms: string[],
+    platforms: Platform[],
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     frontmatter: any,
 ): Enum {
-    enumTypeScheme.parse({ type, name, description, platforms });
+    const { values } = enumTypeScheme.parse({ type, name, description, values: frontmatter.values });
 
     let enumType: Enum["type"];
     switch (type) {
@@ -51,14 +60,7 @@ export function validateEnum(
             throw new Error(`Unknown type: ${type}`);
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const values = frontmatter.values == undefined ? [] : (frontmatter.values as any[]);
-    if (Array.isArray(values) == false) {
-        throw new Error("Values must be an array.");
-    }
-    const resultValues = values
-        .filter((x) => typeof x.name === "string" && typeof x.value === "string" && typeof x.description === "string")
-        .map((x) => validateValue(enumType, x.name, x.value, x.description));
+    const resultValues = (values ?? []).map((x) => validateValue(enumType, x.name, x.value, x.description));
 
     switch (enumType) {
         case "string":
