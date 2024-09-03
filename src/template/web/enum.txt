@@ -14,4 +14,4 @@ const <%- className %> = {
 <% } -%>
 } as const;
  
-type <%- className %> = (typeof <%- className %>)[keyof typeof <%- className %>];
+export type <%- className %> = (typeof <%- className %>)[keyof typeof <%- className %>];

@@ -7,7 +7,7 @@
  * <%- description %>
 <% } -%>
  */
-interface <%- className %> {
+export interface <%- className %> {
 <% for (var parameter of parameters) { -%>
     /**
 <% for (var description of parameter.descriptionLines) { -%>
