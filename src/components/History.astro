@@ -1,0 +1,14 @@
+---
+import { repositoryUrl } from "../constant";
+
+interface Props {
+    type: "type" | "common" | "event";
+    slug: string;
+}
+
+const { type, slug } = Astro.props;
+const branch = "master"; // FixMe: Extract branch from git command if you want to use multiple branches
+const url = `${repositoryUrl}/commits/${branch}/src/content/${type}/${slug}.mdx`;
+---
+
+<a href={url} class="text-lg">History</a>

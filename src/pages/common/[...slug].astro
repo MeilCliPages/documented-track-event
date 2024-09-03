@@ -40,7 +40,12 @@ const webCommonHtml = common.data.platforms.includes("web")
     : null;
 ---
 
-<CommonPage name={common.data.name} description={common.data.description} platforms={common.data.platforms}>
+<CommonPage
+    slug={common.slug}
+    name={common.data.name}
+    description={common.data.description}
+    platforms={common.data.platforms}
+>
     <Content components={{ a: Link }} />
     <h2>Generated Code</h2>
     {androidCommonHtml != null && <div set:html={androidCommonHtml} />}

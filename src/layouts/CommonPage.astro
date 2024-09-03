@@ -2,16 +2,17 @@
 import type { CollectionEntry } from "astro:content";
 import Layout from "./Layout.astro";
 import Platform from "../components/Platform.astro";
+import History from "../components/History.astro";
 
-type Props = CollectionEntry<"common">["data"];
+type Props = CollectionEntry<"common">["data"] & { slug: string };
 
-const { name, description, platforms } = Astro.props;
+const { slug, name, description, platforms } = Astro.props;
 ---
 
 <Layout title={name} description={description}>
     <article class="my-8">
         <div>
-            <h1>{name}</h1>
+            <h1>{name} <History type="common" slug={slug} /></h1>
             <div class="flex flex-wrap items-center justify-start gap-y-1">
                 {platforms.map((x) => <Platform name={x} />)}
                 <p>{description}</p>

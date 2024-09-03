@@ -35,7 +35,12 @@ const webCommonHtml = event.data.platforms.includes("web")
     : null;
 ---
 
-<EventPage name={event.data.name} description={event.data.description} platforms={event.data.platforms}>
+<EventPage
+    slug={event.slug}
+    name={event.data.name}
+    description={event.data.description}
+    platforms={event.data.platforms}
+>
     <Content
         components={{
             a: Link,
