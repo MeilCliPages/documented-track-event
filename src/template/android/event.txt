@@ -1,5 +1,9 @@
 package net.meilcli.dte.event
 
+<% for (var importText of imports) { -%>
+<%- importText %>
+<% } -%>
+
 /**
 <% for (var description of descriptionLines) { -%>
  * <%- description %>
